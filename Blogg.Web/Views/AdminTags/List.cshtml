@@ -1,0 +1,40 @@
+﻿@model List<Blogg.Web.Models.Domian.Tag>
+@{
+}
+
+<div class="bg-secondary bg-opacity-10 py-2">
+    <div class="container">
+        <h1>Show all Tags - Admin Functionality</h1>
+    </div>
+</div>
+
+<div class="container" py-5>
+    @if (Model != null && Model.Any())
+    {
+        <table class=" container table table-striped ">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Display Name</th>
+                    <th> </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var tag in Model)
+                {
+                    <tr>
+                        <td>@tag.Id</td>
+                        <td>@tag.Name</td>
+                        <td>@tag.DisplayName</td>
+                        <td><a asp-area="" asp-controller="AdminTags" asp-route-id="@tag.Id" asp-action="Edit" class="btn btn-outline-success">Edit</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No tags found !!</p>
+    }
+</div>
