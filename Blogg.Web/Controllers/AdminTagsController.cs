@@ -66,5 +66,43 @@ namespace Blogg.Web.Controllers
             }
             return View();
         }
+
+        [HttpPost]
+        public IActionResult Edit(EditTagRequest editTagRequest)
+        {
+            var tag = new Tag
+            {
+                Id = editTagRequest.Id,
+                Name = editTagRequest.Name,
+                DisplayName = editTagRequest.DisplayName,
+            };
+            var existingTag = bloggDbContext.Tags.Find(tag.Id);
+
+            if(existingTag != null)
+            {
+                existingTag.Name = tag.Name;
+                existingTag.DisplayName = tag.DisplayName;
+
+                bloggDbContext.SaveChanges();
+                return RedirectToAction("List");
+            }
+
+            return RedirectToAction("Edit", new {id = editTagRequest.Id});
+        }
+
+        [HttpPost]
+        public IActionResult Delete(EditTagRequest editTagRequest)
+        {
+            var tag = bloggDbContext.Tags.Find(editTagRequest);
+
+            if(tag != null)
+            {
+                bloggDbContext.Tags.Remove();
+                bloggDbContext.SaveChanges();
+
+                return RedirectToAction("List");
+            }
+            return RedirectToAction("Edit", new { id = editTagRequest });
+        }
     }
 }
